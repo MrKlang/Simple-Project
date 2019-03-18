@@ -118,9 +118,14 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && !IsJumping)
         {
-            RBody.AddRelativeForce(new Vector3(0, RelativeJumpForceValue, 0),ForceMode.Impulse);
-            IsJumping = true;
+            Jump();
         }
+    }
+
+    public void Jump()
+    {
+        RBody.AddRelativeForce(new Vector3(0, RelativeJumpForceValue, 0), ForceMode.Impulse);
+        IsJumping = true;
     }
 
     private bool CheckIfIsNearFall(Vector3 raycastDirection, RaycastHit hit)
@@ -151,6 +156,14 @@ public class PlayerController : MonoBehaviour
         else if (collision.gameObject.CompareTag("Killer"))
         {
             GameController.ChangePlayerState(PlayerState.Dead);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("WinFlag"))
+        {
+            GameController.ChangePlayerState(PlayerState.Finished);
         }
     }
 }

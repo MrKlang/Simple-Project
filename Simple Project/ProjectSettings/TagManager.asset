@@ -8,6 +8,7 @@ TagManager:
   - Killer
   - PowerUp
   - Target
+  - WinFlag
   layers:
   - Default
   - TransparentFX

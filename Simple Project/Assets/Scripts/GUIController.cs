@@ -7,19 +7,34 @@ using System.Collections;
 public class GUIController : MonoBehaviour
 {
     public GameObject GameOverPanel;
-    public Button RestartButton;
+    public GameObject WinPanel;
+    public Button[] RestartButtons;
     public TextMeshProUGUI Text;
 
     void Start()
     {
-        RestartButton.onClick.AddListener(()=> { SceneManager.LoadScene(SceneManager.GetActiveScene().name); Time.timeScale = 1; });
+        foreach (Button restartButton in RestartButtons)
+        {
+            restartButton.onClick.AddListener(() => { SceneManager.LoadScene(SceneManager.GetActiveScene().name); Time.timeScale = 1; });
+        }
     }
 
-    public void SetPlayerChangedStateGuiBehaviour(PlayerState state)
+    public void SetPlayerChangedStateGuiBehaviour(PlayerState state, bool isPlayerCrouching)
     {
-        if(state!= PlayerState.Dead)
+        if(state!= PlayerState.Dead && state!= PlayerState.Finished)
         {
-            Text.text = string.Format("Current State: {0}",state.ToString());
+            if (!isPlayerCrouching || state == PlayerState.Crouching)
+            {
+                Text.text = string.Format("Current State: {0}", state.ToString());
+            }
+            else
+            {
+                Text.text = string.Format("Current State: Crouching & {0}", state.ToString());
+            }
+        }else if(state == PlayerState.Finished)
+        {
+            WinPanel.SetActive(true);
+            Time.timeScale = 0;
         }
         else
         {

@@ -9,7 +9,9 @@ public class BulletController : MonoBehaviour
     void Start()
     {
         transform.parent = null;
+        transform.localScale = new Vector3(0.1f, 0.2f, 0.1f);
         BulletRigidbody.AddRelativeForce(Vector3.up * 20, ForceMode.Impulse);
+        Destroy(gameObject, 5.0f);
     }
 
     private void OnCollisionEnter(Collision collision)
